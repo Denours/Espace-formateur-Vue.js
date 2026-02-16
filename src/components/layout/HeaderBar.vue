@@ -3,11 +3,14 @@
     class="h-16 bg-white border-b border-gray-200 flex items-center justify-between px-8"
   >
     <!-- Mobile toggle -->
-    <button @click="toggleSidebar?.()" class="lg:hidden text-gray-600">
+    <button
+      @click="$emit('toggleSidebar')"
+      class="text-gray-600 hover:text-primary transition"
+    >
       ☰
     </button>
 
-    <div class="flex-1">
+    <div class="flex-1 ml-2">
       <h1 class="text-2xl font-semibold">Ressources Pédagogiques</h1>
     </div>
 
@@ -32,7 +35,5 @@
 </template>
 
 <script setup lang="ts">
-import { inject } from "vue";
-
-const toggleSidebar = inject<() => void>("toggleSidebar");
+defineEmits(["toggleSidebar"]);
 </script>

@@ -1,10 +1,9 @@
 <template>
   <aside
     :class="[
-      'bg-white w-64 border-r border-gray-200 flex flex-col transition-all duration-300',
-      isMobileOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
+      'bg-white w-64 border-r border-gray-200 flex flex-col fixed inset-y-0 left-0 z-40 transform transition-transform duration-300',
+      isOpen ? 'translate-x-0' : '-translate-x-full',
     ]"
-    class="fixed lg:static inset-y-0 left-0 z-40"
   >
     <!-- Top -->
     <div class="flex items-center gap-3 px-6 py-5 border-b border-gray-200">
@@ -31,16 +30,14 @@
 
   <!-- Overlay mobile -->
   <div
-    v-if="isMobileOpen"
-    @click="isMobileOpen = false"
+    v-if="isOpen"
+    @click="$emit('close')"
     class="fixed inset-0 bg-black/30 z-30 lg:hidden"
   />
 </template>
 
 <script setup lang="ts">
-import { ref, provide } from "vue";
 import SidebarItem from "./SidebarItem.vue";
-
-const isMobileOpen = ref(false);
-provide("toggleSidebar", () => (isMobileOpen.value = !isMobileOpen.value));
+defineProps<{ isOpen: boolean }>();
+const emit = defineEmits(["close"]);
 </script>

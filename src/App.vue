@@ -1,9 +1,14 @@
 <template>
   <div class="flex h-screen overflow-hidden">
-    <Sidebar />
+    <Sidebar :isOpen="isSidebarOpen" @close="isSidebarOpen = false" />
 
-    <div class="flex-1 flex flex-col">
-      <HeaderBar />
+    <div
+      :class="[
+        'flex-1 flex flex-col transition-all duration-300',
+        isSidebarOpen ? 'lg:ml-64' : 'lg:ml-0',
+      ]"
+    >
+      <HeaderBar @toggleSidebar="toggleSidebar" />
 
       <main class="flex-1 p-8 overflow-y-auto">
         <div class="flex justify-between items-start mb-8">
@@ -33,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { formations } from "./data/mockData";
 import Sidebar from "./components/layout/Sidebar.vue";
 import HeaderBar from "./components/layout/HeaderBar.vue";
@@ -41,11 +46,25 @@ import FormationCard from "./components/formation/FormationCard.vue";
 import AddResourceModal from "./components/modals/AddResourceModal.vue";
 
 const isModalOpen = ref(false);
+const isSidebarOpen = ref(window.innerWidth >= 1024);
+const toggleSidebar = () => {
+  isSidebarOpen.value = !isSidebarOpen.value;
+};
 const totalResourcesForms = computed(() => {
   return formations
     .map((formation) =>
       formation.modules.reduce((acc, m) => acc + m.resources.length, 0),
     )
     .reduce((acc, curr) => acc + curr);
+});
+
+onMounted(() => {
+  window.addEventListener("resize", () => {
+    if (window.innerWidth >= 1024) {
+      isSidebarOpen.value = true;
+    } else {
+      isSidebarOpen.value = false;
+    }
+  });
 });
 </script>
