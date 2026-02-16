@@ -28,6 +28,7 @@
         />
       </main>
     </div>
+    <AddResourceModal v-if="isModalOpen" @close="isModalOpen = false" />
   </div>
 </template>
 
@@ -37,6 +38,7 @@ import { formations } from "./data/mockData";
 import Sidebar from "./components/layout/Sidebar.vue";
 import HeaderBar from "./components/layout/HeaderBar.vue";
 import FormationCard from "./components/formation/FormationCard.vue";
+import AddResourceModal from "./components/modals/AddResourceModal.vue";
 
 const isModalOpen = ref(false);
 const totalResourcesForms = computed(() => {
