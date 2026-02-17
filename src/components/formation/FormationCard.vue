@@ -13,7 +13,6 @@
       @click="toggleOpen"
     >
       <div class="flex items-center gap-3">
-        <!-- Folder Icon -->
         <div
           :class="[
             'w-9 h-9 rounded-lg flex items-center justify-center',
@@ -54,6 +53,7 @@
         v-for="module in formation.modules"
         :key="module.id"
         :module="module"
+        :formation-id="formation.id"
       />
     </div>
   </div>

@@ -2,6 +2,7 @@
 // Routes :
 //   GET    /api/formations
 //   POST   /api/formations/:fId/modules/:mId/resources
+//   PUT    /api/formations/:fId/modules/:mId/resources/:rId
 //   DELETE /api/formations/:fId/modules/:mId/resources/:rId
 
 import express from "express";
@@ -10,15 +11,11 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-// Compatibilite ESM (__dirname n existe pas nativement en ESM)
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-
-// db.json est toujours dans le meme dossier que server.js
 const DB_PATH = path.resolve(__dirname, "db.json");
 const PORT = 3001;
 
-// --- Diagnostic au demarrage ---
 console.log("");
 console.log("Dossier serveur  :", __dirname);
 console.log("Chemin db.json   :", DB_PATH);
@@ -26,12 +23,9 @@ console.log("db.json present  :", fs.existsSync(DB_PATH) ? "OUI" : "NON");
 console.log("");
 
 const app = express();
-
-// --- Middlewares ---
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
-// Log de chaque requete entrante
 app.use((req, _res, next) => {
   console.log(
     "[" + new Date().toLocaleTimeString() + "] " + req.method + " " + req.url,
@@ -39,7 +33,6 @@ app.use((req, _res, next) => {
   next();
 });
 
-// --- Helpers lecture / ecriture db.json ---
 function readDB() {
   const raw = fs.readFileSync(DB_PATH, "utf-8");
   return JSON.parse(raw);
@@ -62,7 +55,7 @@ app.get("/api/formations", (req, res) => {
     const { formations } = readDB();
     res.json(formations);
   } catch (err) {
-    console.error("[GET /api/formations] Erreur :", err.message);
+    console.error("[GET] Erreur :", err.message);
     res.status(500).json({ error: "Impossible de lire les donnees." });
   }
 });
@@ -82,16 +75,14 @@ app.post("/api/formations/:fId/modules/:mId/resources", (req, res) => {
 
     const db = readDB();
     const formation = db.formations.find((f) => f.id === fId);
-    if (!formation) {
+    if (!formation)
       return res
         .status(404)
         .json({ error: "Formation " + fId + " introuvable." });
-    }
 
     const module = formation.modules.find((m) => m.id === mId);
-    if (!module) {
+    if (!module)
       return res.status(404).json({ error: "Module " + mId + " introuvable." });
-    }
 
     const newResource = {
       id: generateResourceId(db.formations),
@@ -100,18 +91,61 @@ app.post("/api/formations/:fId/modules/:mId/resources", (req, res) => {
       size,
       date,
     };
-
     module.resources.push(newResource);
     writeDB(db);
 
-    console.log(
-      "[POST] Ajout -> Formation " + fId + " / Module " + mId + " :",
-      newResource.title,
-    );
+    console.log("[POST] Ajout :", newResource.title);
     res.status(201).json(newResource);
   } catch (err) {
-    console.error("[POST /resources] Erreur :", err.message);
-    res.status(500).json({ error: "Erreur serveur lors de l ajout." });
+    console.error("[POST] Erreur :", err.message);
+    res.status(500).json({ error: "Erreur serveur lors de l'ajout." });
+  }
+});
+
+// --- PUT /api/formations/:fId/modules/:mId/resources/:rId ---
+app.put("/api/formations/:fId/modules/:mId/resources/:rId", (req, res) => {
+  try {
+    const fId = Number.parseInt(req.params.fId);
+    const mId = Number.parseInt(req.params.mId);
+    const rId = Number.parseInt(req.params.rId);
+    const { title, type, size, date } = req.body;
+
+    if (!title || !type || !size || !date) {
+      return res
+        .status(400)
+        .json({ error: "Champs manquants : title, type, size, date requis." });
+    }
+
+    const db = readDB();
+    const formation = db.formations.find((f) => f.id === fId);
+    if (!formation)
+      return res
+        .status(404)
+        .json({ error: "Formation " + fId + " introuvable." });
+
+    const module = formation.modules.find((m) => m.id === mId);
+    if (!module)
+      return res.status(404).json({ error: "Module " + mId + " introuvable." });
+
+    const resource = module.resources.find((r) => r.id === rId);
+    if (!resource)
+      return res
+        .status(404)
+        .json({ error: "Ressource " + rId + " introuvable." });
+
+    // Mise a jour des champs
+    resource.title = title;
+    resource.type = type;
+    resource.size = size;
+    resource.date = date;
+
+    writeDB(db);
+
+    console.log("[PUT] Modification :", resource.title);
+    res.json(resource);
+  } catch (err) {
+    console.error("[PUT] Erreur :", err.message);
+    res.status(500).json({ error: "Erreur serveur lors de la modification." });
   }
 });
 
@@ -124,45 +158,34 @@ app.delete("/api/formations/:fId/modules/:mId/resources/:rId", (req, res) => {
 
     const db = readDB();
     const formation = db.formations.find((f) => f.id === fId);
-    if (!formation) {
+    if (!formation)
       return res
         .status(404)
         .json({ error: "Formation " + fId + " introuvable." });
-    }
 
     const module = formation.modules.find((m) => m.id === mId);
-    if (!module) {
+    if (!module)
       return res.status(404).json({ error: "Module " + mId + " introuvable." });
-    }
 
     const idx = module.resources.findIndex((r) => r.id === rId);
-    if (idx === -1) {
+    if (idx === -1)
       return res
         .status(404)
         .json({ error: "Ressource " + rId + " introuvable." });
-    }
 
     const [deleted] = module.resources.splice(idx, 1);
     writeDB(db);
 
-    console.log(
-      "[DELETE] Suppression -> Formation " + fId + " / Module " + mId + " :",
-      deleted.title,
-    );
+    console.log("[DELETE] Suppression :", deleted.title);
     res.json({ deleted });
   } catch (err) {
-    console.error("[DELETE /resources] Erreur :", err.message);
+    console.error("[DELETE] Erreur :", err.message);
     res.status(500).json({ error: "Erreur serveur lors de la suppression." });
   }
 });
 
-// --- Demarrage ---
 app.listen(PORT, () => {
   console.log("API demarree sur http://localhost:" + PORT);
-  console.log(
-    "Test rapide : ouvrez http://localhost:" +
-      PORT +
-      "/api/formations dans votre navigateur",
-  );
+  console.log("Test : http://localhost:" + PORT + "/api/formations");
   console.log("");
 });
