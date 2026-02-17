@@ -165,19 +165,33 @@
         </div>
       </div>
 
+      <!-- Erreur serveur -->
+      <div
+        v-if="serverError"
+        class="mx-6 mb-2 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 flex items-center gap-2"
+      >
+        <span>⚠️</span> {{ serverError }}
+      </div>
+
       <!-- Footer -->
       <div class="flex justify-end gap-3 px-6 py-5 border-t">
         <button
           @click="$emit('close')"
-          class="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition"
+          :disabled="submitting"
+          class="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition disabled:opacity-50"
         >
           Annuler
         </button>
         <button
           @click="handleSubmit"
-          class="px-5 py-2 rounded-lg bg-primary text-white hover:bg-blue-700 transition shadow disabled:opacity-50 disabled:cursor-not-allowed"
+          :disabled="submitting"
+          class="flex items-center gap-2 px-5 py-2 rounded-lg bg-primary text-white hover:bg-blue-700 transition shadow disabled:opacity-60 disabled:cursor-not-allowed"
         >
-          Ajouter la ressource
+          <span
+            v-if="submitting"
+            class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
+          ></span>
+          {{ submitting ? "Envoi en cours…" : "Ajouter la ressource" }}
         </button>
       </div>
     </div>
@@ -212,7 +226,11 @@ const customName = ref("");
 const selectedFile = ref<File | null>(null);
 const fileInputRef = ref<HTMLInputElement | null>(null);
 
-// ── Erreurs ────────────────────────────────────────────────────
+// ── États async ────────────────────────────────────────────────
+const submitting = ref(false);
+const serverError = ref<string | null>(null);
+
+// ── Erreurs de validation ──────────────────────────────────────
 const errors = ref({ formation: "", module: "", file: "" });
 
 // ── Computed ───────────────────────────────────────────────────
@@ -235,6 +253,7 @@ const formattedFileSize = computed(() => {
 watch(selectedFormationId, () => {
   selectedModuleId.value = null;
   errors.value.formation = "";
+  serverError.value = null;
 });
 watch(selectedModuleId, () => {
   errors.value.module = "";
@@ -259,7 +278,7 @@ function setFile(file: File) {
   }
   selectedFile.value = file;
   errors.value.file = "";
-  // Pré-remplir le nom si vide
+  serverError.value = null;
   if (!customName.value) {
     customName.value = file.name.replace(/\.[^.]+$/, "");
   }
@@ -271,7 +290,7 @@ function clearFile() {
   if (fileInputRef.value) fileInputRef.value.value = "";
 }
 
-// ── Validation & Soumission ────────────────────────────────────
+// ── Validation ─────────────────────────────────────────────────
 function validate(): boolean {
   let valid = true;
   errors.value = { formation: "", module: "", file: "" };
@@ -291,8 +310,12 @@ function validate(): boolean {
   return valid;
 }
 
-function handleSubmit() {
+// ── Soumission async ───────────────────────────────────────────
+async function handleSubmit() {
   if (!validate()) return;
+
+  submitting.value = true;
+  serverError.value = null;
 
   const today = new Date();
   const dateStr = today.toLocaleDateString("fr-FR", {
@@ -301,16 +324,39 @@ function handleSubmit() {
     year: "numeric",
   });
 
-  emit("add-resource", {
-    formationId: selectedFormationId.value!,
-    moduleId: selectedModuleId.value!,
-    resource: {
-      title: customName.value.trim() || selectedFile.value!.name,
-      type: selectedType.value,
-      size: formattedFileSize.value,
-      date: dateStr,
-    },
-  });
+  try {
+    // Émettre vers App.vue qui appelle addResource (Axios POST)
+    // On utilise une Promise pour attendre la réponse du parent
+    await new Promise<void>((resolve, reject) => {
+      const cleanup = watch(
+        () => props.formations, // si les formations changent → succès
+        () => {
+          cleanup();
+          resolve();
+        },
+        { deep: true, once: true },
+      );
+      emit("add-resource", {
+        formationId: selectedFormationId.value!,
+        moduleId: selectedModuleId.value!,
+        resource: {
+          title: customName.value.trim() || selectedFile.value!.name,
+          type: selectedType.value,
+          size: formattedFileSize.value,
+          date: dateStr,
+        },
+      });
+      // Timeout de sécurité
+      setTimeout(() => {
+        cleanup();
+        resolve();
+      }, 5000);
+    });
+  } catch (err) {
+    serverError.value = (err as Error).message || "Erreur lors de l'envoi.";
+  } finally {
+    submitting.value = false;
+  }
 }
 </script>
 

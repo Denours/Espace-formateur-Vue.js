@@ -33,7 +33,9 @@
             {{ formation.modules.length }} module{{
               formation.modules.length > 1 ? "s" : null
             }}
-            • {{ totalResources }} ressources
+            • {{ totalResources }} ressource{{
+              formation.modules.length > 1 ? "s" : null
+            }}
           </p>
         </div>
       </div>

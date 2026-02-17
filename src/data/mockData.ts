@@ -1,3 +1,5 @@
+/*C'EST LE FICHIER QUE J'UTILISAIS QUAND MES DONNEES ETAIENT ENCORE LOCALES ET NON CHARGEES DEPUIS UNE API*/
+
 import type { Formation } from "../types/formation";
 
 export const formations: Formation[] = [

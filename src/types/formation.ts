@@ -1,3 +1,5 @@
+/*CE SONT LES DIFFERENTES STRUCTURES DE DONNEES UTILISEES DANS L'APPLICATION*/
+
 export type FileType = "PDF" | "Video" | "Archive";
 export interface Resource {
   id: number;
