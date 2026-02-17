@@ -14,7 +14,7 @@
         <div class="flex justify-between items-start mb-8">
           <div>
             <p class="text-sm text-gray-500 mt-1">
-              {{ totalResourcesForms }} ressources •
+              {{ totalResources }} ressources •
               {{ formations.length }} formations
             </p>
           </div>
@@ -26,6 +26,7 @@
             Ajouter une ressource
           </button>
         </div>
+
         <FormationCard
           v-for="formation in formations"
           :key="formation.id"
@@ -33,38 +34,46 @@
         />
       </main>
     </div>
-    <AddResourceModal v-if="isModalOpen" @close="isModalOpen = false" />
+
+    <AddResourceModal
+      v-if="isModalOpen"
+      :formations="formations"
+      @close="isModalOpen = false"
+      @add-resource="handleAddResource"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref } from "vue";
-import { formations } from "./data/mockData";
+import { onMounted, ref } from "vue";
+import { useFormations } from "./composables/useFormations";
 import Sidebar from "./components/layout/Sidebar.vue";
 import HeaderBar from "./components/layout/HeaderBar.vue";
 import FormationCard from "./components/formation/FormationCard.vue";
 import AddResourceModal from "./components/modals/AddResourceModal.vue";
+import type { Resource } from "./types/formation";
+
+const { formations, totalResources, addResource } = useFormations();
 
 const isModalOpen = ref(false);
 const isSidebarOpen = ref(window.innerWidth >= 1024);
+
 const toggleSidebar = () => {
   isSidebarOpen.value = !isSidebarOpen.value;
 };
-const totalResourcesForms = computed(() => {
-  return formations
-    .map((formation) =>
-      formation.modules.reduce((acc, m) => acc + m.resources.length, 0),
-    )
-    .reduce((acc, curr) => acc + curr);
-});
+
+function handleAddResource(payload: {
+  formationId: number;
+  moduleId: number;
+  resource: Omit<Resource, "id">;
+}) {
+  addResource(payload.formationId, payload.moduleId, payload.resource);
+  isModalOpen.value = false;
+}
 
 onMounted(() => {
   window.addEventListener("resize", () => {
-    if (window.innerWidth >= 1024) {
-      isSidebarOpen.value = true;
-    } else {
-      isSidebarOpen.value = false;
-    }
+    isSidebarOpen.value = window.innerWidth >= 1024;
   });
 });
 </script>
