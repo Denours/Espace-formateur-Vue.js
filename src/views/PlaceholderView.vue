@@ -1,0 +1,16 @@
+<template>
+  <div
+    class="flex flex-col items-center justify-center h-full text-gray-400 py-32"
+  >
+    <div class="text-6xl mb-6">{{ icone }}</div>
+    <h2 class="text-xl font-semibold text-gray-600 mb-2">{{ titre }}</h2>
+    <p class="text-sm">Cette section est en cours de développement.</p>
+  </div>
+</template>
+
+<script setup lang="ts">
+defineProps<{
+  titre: string;
+  icone: string;
+}>();
+</script>

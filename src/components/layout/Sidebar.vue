@@ -5,7 +5,7 @@
       isOpen ? 'translate-x-0' : '-translate-x-full',
     ]"
   >
-    <!-- Top -->
+    <!-- Logo / titre -->
     <div class="flex items-center gap-3 px-6 py-5 border-b border-gray-200">
       <div
         class="w-9 h-9 rounded-full bg-primary flex items-center justify-center text-white font-semibold"
@@ -18,13 +18,15 @@
       </div>
     </div>
 
-    <!-- Menu -->
-    <nav class="flex-1 px-4 py-6 space-y-2">
-      <SidebarItem label="Tableau de bord">🏚️</SidebarItem>
-      <SidebarItem label="Mes sessions">⏲️</SidebarItem>
-      <SidebarItem label="Ressources" active>®️</SidebarItem>
-      <SidebarItem label="Messages">📩</SidebarItem>
-      <SidebarItem label="Mon profil">🙍</SidebarItem>
+    <!-- Navigation -->
+    <nav class="flex-1 px-4 py-6 space-y-1">
+      <SidebarItem to="/tableau-de-bord" label="Tableau de bord"
+        >🏚️</SidebarItem
+      >
+      <SidebarItem to="/sessions" label="Mes sessions">⏲️</SidebarItem>
+      <SidebarItem to="/ressources" label="Ressources">📚</SidebarItem>
+      <SidebarItem to="/messages" label="Messages">📩</SidebarItem>
+      <SidebarItem to="/profil" label="Mon profil">🙍</SidebarItem>
     </nav>
   </aside>
 
@@ -39,5 +41,5 @@
 <script setup lang="ts">
 import SidebarItem from "./SidebarItem.vue";
 defineProps<{ isOpen: boolean }>();
-const emit = defineEmits(["close"]);
+defineEmits(["close"]);
 </script>
