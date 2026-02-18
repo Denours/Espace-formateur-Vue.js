@@ -26,9 +26,7 @@
       <div class="px-6 py-6 space-y-5 overflow-y-auto">
         <!-- Formation -->
         <div>
-          <label class="text-sm font-medium text-gray-700"
-            >Formation <span class="text-red-500">*</span></label
-          >
+          <label class="text-sm font-medium text-gray-700">Formation </label>
           <select
             v-model="selectedFormationId"
             class="input"
@@ -50,9 +48,7 @@
 
         <!-- Module (dynamique selon la formation choisie) -->
         <div>
-          <label class="text-sm font-medium text-gray-700"
-            >Module <span class="text-red-500">*</span></label
-          >
+          <label class="text-sm font-medium text-gray-700">Module </label>
           <select
             v-model="selectedModuleId"
             class="input"
@@ -82,8 +78,8 @@
         <!-- Type de fichier -->
         <div>
           <label class="text-sm font-medium text-gray-700"
-            >Type de fichier <span class="text-red-500">*</span></label
-          >
+            >Type de fichier
+          </label>
           <select v-model="selectedType" class="input">
             <option value="PDF">PDF</option>
             <option value="Video">Video</option>
@@ -93,9 +89,7 @@
 
         <!-- Zone d'upload -->
         <div>
-          <label class="text-sm font-medium text-gray-700"
-            >Fichier <span class="text-red-500">*</span></label
-          >
+          <label class="text-sm font-medium text-gray-700">Fichier </label>
           <div
             class="mt-2 border-2 border-dashed rounded-xl p-8 text-center transition cursor-pointer"
             :class="
@@ -111,8 +105,12 @@
           >
             <!-- Fichier sélectionné -->
             <template v-if="selectedFile">
-              <div class="text-3xl mb-2">✅</div>
-              <p class="text-sm font-medium text-green-700">
+              <div class="text-3xl mb-2">
+                <CheckIcon
+                  class="size-10 d-block mx-auto text-green-500"
+                ></CheckIcon>
+              </div>
+              <p class="text-sm font-medium text-green-700 break-words">
                 {{ selectedFile.name }}
               </p>
               <p class="text-xs text-green-600 mt-1">{{ formattedFileSize }}</p>
@@ -125,7 +123,11 @@
             </template>
             <!-- Pas de fichier -->
             <template v-else>
-              <div class="text-3xl mb-3">⬆</div>
+              <div class="text-3xl mb-3">
+                <ArrowUpTrayIcon
+                  class="size-10 d-block mx-auto text-gray-400"
+                ></ArrowUpTrayIcon>
+              </div>
               <p class="text-sm text-gray-600">
                 Cliquez pour sélectionner ou glissez un fichier
               </p>
@@ -170,7 +172,10 @@
         v-if="serverError"
         class="mx-6 mb-2 px-4 py-3 bg-red-50 border border-red-200 rounded-lg text-sm text-red-700 flex items-center gap-2"
       >
-        <span>⚠️</span> {{ serverError }}
+        <span>
+          <ExclamationTriangleIcon class="size-5"></ExclamationTriangleIcon>
+        </span>
+        {{ serverError }}
       </div>
 
       <!-- Footer -->
@@ -191,7 +196,7 @@
             v-if="submitting"
             class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
           ></span>
-          {{ submitting ? "Envoi en cours…" : "Ajouter la ressource" }}
+          {{ submitting ? "Envoi en cours…" : "Télecharger" }}
         </button>
       </div>
     </div>
@@ -201,6 +206,9 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import type { Formation, FileType } from "../../types/formation";
+import { CheckIcon } from "@heroicons/vue/24/outline";
+import { ArrowUpTrayIcon } from "@heroicons/vue/24/outline";
+import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 
 // ── Props & Emits ──────────────────────────────────────────────
 const props = defineProps<{

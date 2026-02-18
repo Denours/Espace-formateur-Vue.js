@@ -22,10 +22,14 @@
         </div>
         <div>
           <p class="text-sm font-medium text-gray-900">{{ resource.title }}</p>
-          <p class="text-xs text-gray-500 mt-0.5">
-            <span class="font-medium text-gray-800">{{ resource.type }}</span> •
-            <span class="font-normal text-gray-500"
-              >{{ resource.size }} • {{ resource.date }}</span
+          <p class="text-xs text-gray-500 mt-0.5 space-x-4">
+            <span class="font-medium text-gray-800">{{ resource.type }}</span
+            ><span class="px-3">•</span>
+            <span class="font-normal text-gray-500 px-3">
+              {{ resource.size }} </span
+            ><span>•</span
+            ><span class="font-normal text-gray-500 px-3">
+              {{ resource.date }}</span
             >
           </p>
         </div>
@@ -90,7 +94,7 @@
           @click="cancelEdit"
           class="text-gray-400 hover:text-gray-600 text-lg leading-none"
         >
-          ✕
+          <XMarkIcon class="size-5"></XMarkIcon>
         </button>
       </div>
 
@@ -160,7 +164,10 @@
         v-if="editError"
         class="mt-3 px-3 py-2 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700 flex items-center gap-2"
       >
-        <span>⚠️</span> {{ editError }}
+        <span>
+          <ExclamationTriangleIcon class="size-5"></ExclamationTriangleIcon>
+        </span>
+        {{ editError }}
       </div>
 
       <!-- Boutons edition -->
@@ -195,9 +202,10 @@ import { useFormations } from "../../composables/useFormations";
 import type { Component } from "vue";
 import { DocumentTextIcon } from "@heroicons/vue/24/outline";
 import { VideoCameraIcon } from "@heroicons/vue/24/outline";
-import { ArchiveBoxIcon } from "@heroicons/vue/24/outline";
 import { PencilIcon } from "@heroicons/vue/24/outline";
 import { TrashIcon } from "@heroicons/vue/24/outline";
+import { XMarkIcon } from "@heroicons/vue/24/outline";
+import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps<{
   resource: Resource;
@@ -225,7 +233,7 @@ const editForm = ref({
 const iconMap: Record<string, Component> = {
   PDF: DocumentTextIcon,
   Video: VideoCameraIcon,
-  Archive: ArchiveBoxIcon,
+  Archive: DocumentTextIcon,
 };
 // ── Couleur selon le type ───────────────────────────────────────
 const typeStyle = computed(() => {
@@ -235,7 +243,7 @@ const typeStyle = computed(() => {
     case "Video":
       return { text: "text-purple-500" };
     case "Archive":
-      return { text: "text-yellow-500" };
+      return { text: "text-primary" };
     default:
       return { bg: "bg-gray-100", text: "text-gray-600" };
   }

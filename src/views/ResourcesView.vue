@@ -37,7 +37,9 @@
       v-else-if="error"
       class="bg-red-50 border border-red-200 rounded-xl px-6 py-5 text-sm text-red-700 flex items-start gap-3"
     >
-      <span class="text-xl">⚠️</span>
+      <span class="text-xl">
+        <ExclamationTriangleIcon class="size-5"></ExclamationTriangleIcon>
+      </span>
       <div>
         <p class="font-semibold mb-1">Impossible de contacter le serveur</p>
         <p class="text-red-500">{{ error }}</p>
@@ -76,6 +78,7 @@ import FormationCard from "../components/formation/FormationCard.vue";
 import AddResourceModal from "../components/modals/AddResourceModal.vue";
 import type { Resource } from "../types/formation";
 import { ArrowUpTrayIcon } from "@heroicons/vue/24/solid";
+import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
 
 const {
   formations,
