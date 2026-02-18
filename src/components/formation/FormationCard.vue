@@ -17,15 +17,15 @@
           :class="[
             'w-9 h-9 rounded-lg flex items-center justify-center',
             formation.title === 'Marketing Digital'
-              ? 'bg-purple-200'
-              : 'bg-blue-200',
+              ? 'bg-purple-200 text-purple-500'
+              : 'bg-blue-100 text-primary',
           ]"
         >
-          📁
+          <FolderIcon class="size-5"></FolderIcon>
         </div>
 
         <div>
-          <h2 class="font-semibold text-gray-800">
+          <h2 class="font-bold text-gray-800 text-sm">
             {{ formation.title }}
           </h2>
           <p class="text-xs text-gray-500 mt-1">
@@ -63,6 +63,7 @@
 import { ref, computed } from "vue";
 import type { Formation } from "../../types/formation";
 import ModuleSection from "./ModuleSection.vue";
+import { FolderIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps<{
   formation: Formation;

@@ -1,7 +1,7 @@
 <template>
   <div class="mt-6">
     <div class="flex items-center gap-2 mb-3">
-      <span class="text-sm font-medium text-gray-700">
+      <span class="text-sm font-bold text-gray-700">
         {{ module.title }}
       </span>
       <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">

@@ -13,7 +13,6 @@
     <div class="flex-1 ml-2">
       <h1 class="text-xl font-semibold">Ressources Pédagogiques</h1>
     </div>
-
     <!-- Right section -->
     <div class="flex items-center gap-6">
       <!-- Notification -->
@@ -39,7 +38,7 @@ import { BellIcon } from "@heroicons/vue/24/outline";
 defineEmits(["toggleSidebar"]);
 </script>
 <style scoped>
-.avatar{
+.avatar {
   font-size: small;
 }
 </style>

@@ -13,17 +13,20 @@
       <div class="flex items-center gap-3">
         <div
           :class="[
-            'w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold',
-            typeStyle.bg,
+            'w-5 h-8 rounded-lg flex items-center justify-center text-sm font-bold',
             typeStyle.text,
           ]"
         >
-          {{ resource.type.charAt(0) }}
+          <!-- {{ resource.type.charAt(0) }} -->
+          <component :is="iconMap[resource.type] || DocumentTextIcon" />
         </div>
         <div>
-          <p class="text-sm font-medium text-gray-800">{{ resource.title }}</p>
+          <p class="text-sm font-medium text-gray-900">{{ resource.title }}</p>
           <p class="text-xs text-gray-500 mt-0.5">
-            {{ resource.type }} • {{ resource.size }} • {{ resource.date }}
+            <span class="font-medium text-gray-800">{{ resource.type }}</span> •
+            <span class="font-normal text-gray-500"
+              >{{ resource.size }} • {{ resource.date }}</span
+            >
           </p>
         </div>
       </div>
@@ -35,7 +38,7 @@
           title="Modifier"
           class="hover:text-primary transition p-1 rounded hover:bg-blue-50"
         >
-          ✏️
+          <PencilIcon class="size-5"></PencilIcon>
         </button>
         <button
           @click="confirmDelete"
@@ -47,7 +50,9 @@
             v-if="deleting"
             class="inline-block w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin"
           ></span>
-          <span v-else>🗑️</span>
+          <span v-else>
+            <TrashIcon class="size-5"></TrashIcon>
+          </span>
         </button>
       </div>
     </div>
@@ -187,6 +192,12 @@
 import { ref, computed } from "vue";
 import type { Resource, FileType } from "../../types/formation";
 import { useFormations } from "../../composables/useFormations";
+import type { Component } from "vue";
+import { DocumentTextIcon } from "@heroicons/vue/24/outline";
+import { VideoCameraIcon } from "@heroicons/vue/24/outline";
+import { ArchiveBoxIcon } from "@heroicons/vue/24/outline";
+import { PencilIcon } from "@heroicons/vue/24/outline";
+import { TrashIcon } from "@heroicons/vue/24/outline";
 
 const props = defineProps<{
   resource: Resource;
@@ -211,16 +222,20 @@ const editForm = ref({
   size: "",
   date: "",
 });
-
+const iconMap: Record<string, Component> = {
+  PDF: DocumentTextIcon,
+  Video: VideoCameraIcon,
+  Archive: ArchiveBoxIcon,
+};
 // ── Couleur selon le type ───────────────────────────────────────
 const typeStyle = computed(() => {
   switch (props.resource.type) {
     case "PDF":
-      return { bg: "bg-red-100", text: "text-red-600" };
+      return { text: "text-primary" };
     case "Video":
-      return { bg: "bg-blue-100", text: "text-blue-600" };
+      return { text: "text-purple-500" };
     case "Archive":
-      return { bg: "bg-yellow-100", text: "text-yellow-600" };
+      return { text: "text-yellow-500" };
     default:
       return { bg: "bg-gray-100", text: "text-gray-600" };
   }
