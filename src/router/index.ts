@@ -1,4 +1,9 @@
 import { createRouter, createWebHistory } from "vue-router";
+import {
+  SquaresPlusIcon,
+  ChatBubbleLeftIcon,
+  UserIcon,
+} from "@heroicons/vue/24/outline";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -21,19 +26,19 @@ const router = createRouter({
       path: "/dashboard",
       name: "dashboard",
       component: () => import("../views/PlaceholderView.vue"),
-      props: { titre: "Tableau de bord", icone: "🏚️" },
+      props: { titre: "Tableau de bord", icone: {SquaresPlusIcon} },
     },
     {
       path: "/messages",
       name: "messages",
       component: () => import("../views/PlaceholderView.vue"),
-      props: { titre: "Messages", icone: "📩" },
+      props: { titre: "Messages", icone: {ChatBubbleLeftIcon} },
     },
     {
       path: "/profil",
       name: "profil",
       component: () => import("../views/PlaceholderView.vue"),
-      props: { titre: "Mon profil", icone: "🙍" },
+      props: { titre: "Mon profil", icone: {UserIcon} },
     },
   ],
 });

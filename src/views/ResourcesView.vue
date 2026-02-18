@@ -12,9 +12,12 @@
       <button
         @click="isModalOpen = true"
         :disabled="isLoading"
-        class="bg-primary text-white px-5 py-2 rounded-lg shadow-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+        class="bg-primary text-white px-5 py-3 rounded-lg shadow-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        Ajouter une ressource
+        <div class="flex">
+          <ArrowUpTrayIcon class="size-5 font-bold"></ArrowUpTrayIcon>
+          <span class="ml-5">Ajouter une ressource</span>
+        </div>
       </button>
     </div>
 
@@ -72,6 +75,7 @@ import { useFormations } from "../composables/useFormations";
 import FormationCard from "../components/formation/FormationCard.vue";
 import AddResourceModal from "../components/modals/AddResourceModal.vue";
 import type { Resource } from "../types/formation";
+import { ArrowUpTrayIcon } from "@heroicons/vue/24/solid";
 
 const {
   formations,

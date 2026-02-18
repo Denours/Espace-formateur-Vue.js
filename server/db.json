@@ -28,6 +28,13 @@
               "type": "Video",
               "size": "45 MB",
               "date": "12 Jan 2026"
+            },
+            {
+              "id": 6,
+              "title": "eluard-capitale-de-la-douleur",
+              "type": "PDF",
+              "size": "370.6 KB",
+              "date": "17 févr. 2026"
             }
           ]
         },
@@ -48,6 +55,13 @@
               "type": "Archive",
               "size": "0.5 MB",
               "date": "22 Jan 2026"
+            },
+            {
+              "id": 8,
+              "title": "Fira_Code_v6.2",
+              "type": "Archive",
+              "size": "2.3 MB",
+              "date": "17 févr. 2026"
             }
           ]
         }

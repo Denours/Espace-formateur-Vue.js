@@ -4,10 +4,11 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#2563EB", // bouton bleu
+        primary: "#1E88E5", // bouton bleu
         sidebarActive: "#E0ECFF",
         formationBlue: "#EAF2FF",
         formationPurple: "#F3E8FF",
+        // texteGris: "#374151",
       },
       boxShadow: {
         card: "0 2px 8px rgba(0,0,0,0.05)",
