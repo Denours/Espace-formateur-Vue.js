@@ -61,7 +61,10 @@
               statusStyle(session.statut).bg,
             ]"
           >
-            {{ statusStyle(session.statut).icone }}
+            <component
+              :is="statusStyle(session.statut).icone"
+              class="w-5 h-5"
+            />
           </div>
           <div>
             <p class="font-semibold text-gray-800 text-sm">
@@ -87,12 +90,12 @@
           <button
             class="text-gray-400 hover:text-primary transition p-1 rounded hover:bg-blue-50"
           >
-            ✏️
+            <PencilIcon class="size-5"></PencilIcon>
           </button>
           <button
             class="text-gray-400 hover:text-red-500 transition p-1 rounded hover:bg-red-50"
           >
-            🗑️
+            <TrashIcon class="size-5"></TrashIcon>
           </button>
         </div>
       </div>
@@ -102,6 +105,11 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
+import { PencilIcon } from "@heroicons/vue/24/outline";
+import { TrashIcon } from "@heroicons/vue/24/outline";
+import { ClockIcon } from "@heroicons/vue/24/outline";
+import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
+import { CheckIcon } from "@heroicons/vue/24/outline";
 
 interface Session {
   id: number;
@@ -163,19 +171,19 @@ function statusStyle(statut: Session["statut"]) {
       return {
         bg: "bg-orange-50",
         badge: "bg-orange-100 text-orange-700",
-        icone: "⏳",
+        icone: ClockIcon,
       };
     case "A venir":
       return {
         bg: "bg-blue-50",
         badge: "bg-blue-100 text-blue-700",
-        icone: "📅",
+        icone: CalendarDaysIcon,
       };
     case "Terminee":
       return {
         bg: "bg-green-50",
         badge: "bg-green-100 text-green-700",
-        icone: "✅",
+        icone: CheckIcon,
       };
   }
 }

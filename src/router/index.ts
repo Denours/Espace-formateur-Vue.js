@@ -26,19 +26,19 @@ const router = createRouter({
       path: "/dashboard",
       name: "dashboard",
       component: () => import("../views/PlaceholderView.vue"),
-      props: { titre: "Tableau de bord", icone: {SquaresPlusIcon} },
+      props: { titre: "Tableau de bord", icone: SquaresPlusIcon },
     },
     {
       path: "/messages",
       name: "messages",
       component: () => import("../views/PlaceholderView.vue"),
-      props: { titre: "Messages", icone: {ChatBubbleLeftIcon} },
+      props: { titre: "Messages", icone: ChatBubbleLeftIcon },
     },
     {
       path: "/profil",
       name: "profil",
       component: () => import("../views/PlaceholderView.vue"),
-      props: { titre: "Mon profil", icone: {UserIcon} },
+      props: { titre: "Mon profil", icone: UserIcon },
     },
   ],
 });
