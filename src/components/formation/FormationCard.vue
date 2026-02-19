@@ -22,7 +22,7 @@
             {{ formation.modules.length }} module{{
               formation.modules.length > 1 ? "s" : ""
             }}
-            • {{ totalResources }} ressource{{ totalResources > 1 ? "s" : "" }}
+            • <span class="ml-3">{{ totalResources }} ressource{{ totalResources > 1 ? "s" : "" }}</span>
           </p>
         </div>
       </div>

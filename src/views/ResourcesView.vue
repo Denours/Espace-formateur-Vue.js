@@ -5,7 +5,7 @@
       <p class="text-sm text-[#6B7280] mt-1">
         <template v-if="isLoading">Chargement…</template>
         <template v-else>
-          {{ totalResources }} ressources • {{ formations.length }} formations
+          {{ totalResources }} ressources • <span class="ml-5">{{ formations.length }} formations</span>
         </template>
       </p>
 

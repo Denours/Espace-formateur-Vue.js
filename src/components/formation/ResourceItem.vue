@@ -13,13 +13,14 @@
       <div class="flex items-center gap-3">
         <div
           :class="[
-            'w-5 h-8 rounded-lg flex items-center justify-center text-sm font-bold',
+            'w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold',
             typeStyle.text,
+            typeStyle.bg,
           ]"
         >
           <component
             :is="iconMap[resource.type] || FileText"
-            :class="[typeStyle.stroke]"
+            :class="['size-4',typeStyle.stroke]"
           ></component>
         </div>
         <div>
@@ -109,7 +110,9 @@
       <div class="space-y-3">
         <!-- Titre -->
         <div>
-          <label for="title" class="text-xs font-medium text-gray-600 block mb-1"
+          <label
+            for="title"
+            class="text-xs font-medium text-gray-600 block mb-1"
             >Titre</label
           >
           <input
@@ -127,7 +130,9 @@
         <!-- Type + Taille sur la meme ligne -->
         <div class="flex gap-3">
           <div class="flex-1">
-            <label for="type" class="text-xs font-medium text-gray-600 block mb-1"
+            <label
+              for="type"
+              class="text-xs font-medium text-gray-600 block mb-1"
               >Type</label
             >
             <select v-model="editForm.type" class="edit-input">
@@ -137,7 +142,9 @@
             </select>
           </div>
           <div class="flex-1">
-            <label for="weight" class="text-xs font-medium text-gray-600 block mb-1"
+            <label
+              for="weight"
+              class="text-xs font-medium text-gray-600 block mb-1"
               >Taille</label
             >
             <input
@@ -247,13 +254,24 @@ const iconMap: Record<string, Component> = {
 const typeStyle = computed(() => {
   switch (props.resource.type) {
     case "PDF":
-      return { text: "text-primary", stroke: "stroke-blue-700" };
-    case "Video":
-      return { text: "text-purple-500", stroke: "stroke-purple-600" };
     case "Archive":
-      return { text: "text-primary", stroke: "stroke-blue-700" };
+      return {
+        text: "text-primary",
+        stroke: "stroke-blue-700",
+        bg: "bg-[#EFF6FF]",
+      };
+    case "Video":
+      return {
+        text: "text-purple-500",
+        stroke: "stroke-purple-600",
+        bg: "bg-[#FAF5FF]",
+      };
     default:
-      return { bg: "bg-gray-100", text: "text-gray-600" };
+      return {
+        bg: "bg-gray-100",
+        text: "text-gray-600",
+        stroke: "stroke-gray-600",
+      };
   }
 });
 

@@ -167,9 +167,6 @@
             placeholder="Ex: Cours 1 - Introduction"
             class="input"
           />
-          <!-- <p class="text-xs text-gray-400 mt-1">
-            Si vide, le nom du fichier sera utilisé.
-          </p> -->
         </div>
       </div>
 
