@@ -26,7 +26,9 @@
       <div class="px-6 py-6 space-y-5 overflow-y-auto">
         <!-- Formation -->
         <div>
-          <label class="text-sm font-medium text-gray-700">Formation </label>
+          <label for="formation" class="text-sm font-medium text-gray-700"
+            >Formation
+          </label>
           <select
             v-model="selectedFormationId"
             class="input"
@@ -48,7 +50,9 @@
 
         <!-- Module (dynamique selon la formation choisie) -->
         <div>
-          <label class="text-sm font-medium text-gray-700">Module </label>
+          <label for="module" class="text-sm font-medium text-gray-700"
+            >Module
+          </label>
           <select
             v-model="selectedModuleId"
             class="input"
@@ -77,7 +81,7 @@
 
         <!-- Type de fichier -->
         <div>
-          <label class="text-sm font-medium text-gray-700"
+          <label for="filetype" class="text-sm font-medium text-gray-700"
             >Type de fichier
           </label>
           <select v-model="selectedType" class="input">
@@ -89,7 +93,9 @@
 
         <!-- Zone d'upload -->
         <div>
-          <label class="text-sm font-medium text-gray-700">Fichier </label>
+          <label for="upload" class="text-sm font-medium text-gray-700"
+            >Fichier
+          </label>
           <div
             class="mt-2 border-2 border-dashed rounded-xl p-8 text-center transition cursor-pointer"
             :class="
@@ -151,7 +157,7 @@
 
         <!-- Nom personnalisé -->
         <div>
-          <label class="text-sm font-medium text-gray-700">
+          <label for="name" class="text-sm font-medium text-gray-700">
             Nom du fichier
             <span class="text-gray-400 font-normal">(optionnel)</span>
           </label>
@@ -206,9 +212,11 @@
 <script setup lang="ts">
 import { ref, computed, watch } from "vue";
 import type { Formation, FileType } from "../../types/formation";
-import { CheckIcon } from "@heroicons/vue/24/outline";
-import { ArrowUpTrayIcon } from "@heroicons/vue/24/outline";
-import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
+import {
+  CheckIcon,
+  ArrowUpTrayIcon,
+  ExclamationTriangleIcon,
+} from "@heroicons/vue/24/outline";
 
 // ── Props & Emits ──────────────────────────────────────────────
 const props = defineProps<{
@@ -335,7 +343,7 @@ async function handleSubmit() {
   try {
     // Émettre vers App.vue qui appelle addResource (Axios POST)
     // On utilise une Promise pour attendre la réponse du parent
-    await new Promise<void>((resolve, reject) => {
+    await new Promise<void>((resolve) => {
       const cleanup = watch(
         () => props.formations, // si les formations changent → succès
         () => {

@@ -1,9 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
-import {
-  SquaresPlusIcon,
-  ChatBubbleLeftIcon,
-  UserIcon,
-} from "@heroicons/vue/24/outline";
+import { LayoutDashboard, Users, MessageSquare, User } from "lucide-vue-next";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -20,25 +16,26 @@ const router = createRouter({
     {
       path: "/sessions",
       name: "sessions",
-      component: () => import("../views/SessionsView.vue"),
+      component: () => import("../views/PlaceholderView.vue"),
+      props: { titre: "Mes sessions", icone: Users },
     },
     {
       path: "/dashboard",
       name: "dashboard",
       component: () => import("../views/PlaceholderView.vue"),
-      props: { titre: "Tableau de bord", icone: SquaresPlusIcon },
+      props: { titre: "Tableau de bord", icone: LayoutDashboard },
     },
     {
       path: "/messages",
       name: "messages",
       component: () => import("../views/PlaceholderView.vue"),
-      props: { titre: "Messages", icone: ChatBubbleLeftIcon },
+      props: { titre: "Messages", icone: MessageSquare },
     },
     {
       path: "/profil",
       name: "profil",
       component: () => import("../views/PlaceholderView.vue"),
-      props: { titre: "Mon profil", icone: UserIcon },
+      props: { titre: "Mon profil", icone: User },
     },
   ],
 });

@@ -9,7 +9,9 @@
           : 'text-gray-700 hover:bg-gray-100',
       ]"
     >
-      <div class="w-5 h-5"><slot></slot></div>
+      <div :class="['w-5 h-5', isActive ? 'text-primary' : 'text-[#9CA3AF]']">
+        <slot></slot>
+      </div>
       <span class="sidebartext">{{ label }}</span>
     </div>
   </RouterLink>
@@ -22,7 +24,7 @@ defineProps<{
 }>();
 </script>
 <style scoped>
-.sidebartext{
+.sidebartext {
   font-weight: 500;
   font-size: 12px;
   line-height: 20px;
@@ -30,4 +32,3 @@ defineProps<{
   letter-spacing: 0%;
 }
 </style>
-

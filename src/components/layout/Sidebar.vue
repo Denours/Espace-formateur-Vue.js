@@ -8,9 +8,9 @@
     <!-- Logo / titre -->
     <div class="flex items-center gap-3 px-6 py-5 border-b border-gray-200">
       <div
-        class="logobox bg-primary flex items-center justify-center text-white font-semibold"
+        class="logobox bg-primary flex items-center justify-center text-white text-center font-bold"
       >
-        JM
+        <span class="w-[24px] mt-1 text-sm leading-[24px] pb-1">JM</span>
       </div>
       <div class="boxtext">
         <p class="logotext font-bold">
@@ -21,30 +21,30 @@
 
     <!-- Navigation -->
     <nav class="flex-1 px-4 py-6 space-y-1">
-      <SidebarItem to="/dashboard" label="Tableau de bord"
-        ><SquaresPlusIcon></SquaresPlusIcon
-      ></SidebarItem>
-      <SidebarItem to="/sessions" label="Mes sessions"
-        ><UsersIcon></UsersIcon
-      ></SidebarItem>
-      <SidebarItem to="/ressources" label="Ressources"
-        ><FolderOpenIcon></FolderOpenIcon
-      ></SidebarItem>
-      <SidebarItem to="/messages" label="Messages"
-        ><ChatBubbleLeftIcon></ChatBubbleLeftIcon
-      ></SidebarItem>
-      <SidebarItem to="/profil" label="Mon profil"
-        ><UserIcon></UserIcon
-      ></SidebarItem>
+      <SidebarItem to="/dashboard" label="Tableau de bord">
+        <LayoutDashboard :size="20" />
+      </SidebarItem>
+      <SidebarItem to="/sessions" label="Mes sessions">
+        <Users :size="20" />
+      </SidebarItem>
+      <SidebarItem to="/ressources" label="Ressources">
+        <FolderOpen :size="20" />
+      </SidebarItem>
+      <SidebarItem to="/messages" label="Messages">
+        <MessageSquare :size="20" />
+      </SidebarItem>
+      <SidebarItem to="/profil" label="Mon profil">
+        <User :size="20" />
+      </SidebarItem>
       <RouterLink to="">
         <div
           @click="logout"
           :class="[
-            'flex items-center gap-3 px-4 py-2.5 text-red-600 mt-6 rounded-lg text-sm font-medium cursor-pointer transition',
+            'flex items-center gap-3 px-4 py-2.5 text-[#DC2626] mt-6 rounded-lg text-sm  cursor-pointer transition',
           ]"
         >
           <div class="w-5 h-5">
-            <ArrowRightEndOnRectangleIcon class="-ml-3 size-5"></ArrowRightEndOnRectangleIcon>
+            <LogOut :size="20" class="-ml-3"></LogOut>
           </div>
           <span class="logout -ml-2">Déconnexion</span>
         </div>
@@ -63,13 +63,13 @@
 <script setup lang="ts">
 import SidebarItem from "./SidebarItem.vue";
 import {
-  SquaresPlusIcon,
-  UsersIcon,
-  FolderOpenIcon,
-  ChatBubbleLeftIcon,
-  UserIcon,
-  ArrowRightEndOnRectangleIcon,
-} from "@heroicons/vue/24/outline";
+  LayoutDashboard,
+  Users,
+  FolderOpen,
+  MessageSquare,
+  User,
+  LogOut,
+} from "lucide-vue-next";
 
 defineProps<{ isOpen: boolean }>();
 defineEmits(["close"]);
@@ -83,15 +83,14 @@ aside {
   width: 255px;
 }
 .logobox {
-  width: 33px;
+  width: 32px;
   height: 32px;
   border-radius: 8px;
-  padding: 16px 8px;
-  padding-right: 14px;
+  padding: 10px;
 }
 
 .logotext {
-  width: 200px;
+  width: 155px;
 }
 
 .logout {

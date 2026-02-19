@@ -105,11 +105,13 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { PencilIcon } from "@heroicons/vue/24/outline";
-import { TrashIcon } from "@heroicons/vue/24/outline";
-import { ClockIcon } from "@heroicons/vue/24/outline";
-import { CalendarDaysIcon } from "@heroicons/vue/24/outline";
-import { CheckIcon } from "@heroicons/vue/24/outline";
+import {
+  PencilIcon,
+  TrashIcon,
+  ClockIcon,
+  CalendarDaysIcon,
+  CheckIcon,
+} from "@heroicons/vue/24/outline";
 
 interface Session {
   id: number;

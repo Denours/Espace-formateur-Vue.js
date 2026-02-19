@@ -17,18 +17,26 @@
             typeStyle.text,
           ]"
         >
-          <!-- {{ resource.type.charAt(0) }} -->
-          <component :is="iconMap[resource.type] || DocumentTextIcon" />
+          <component
+            :is="iconMap[resource.type] || FileText"
+            :class="[typeStyle.stroke]"
+          ></component>
         </div>
         <div>
-          <p class="text-sm font-medium text-gray-900">{{ resource.title }}</p>
+          <p class="text-sm font-medium text-[#111827]">{{ resource.title }}</p>
           <p class="text-xs text-gray-500 mt-0.5 space-x-4">
-            <span class="font-medium text-gray-800">{{ resource.type }}</span
+            <span
+              class="font-medium text-[#1F2937] bg-[#F3F4F6] p-1 rounded-lg border-1"
+              >{{ resource.type }}</span
             ><span class="px-3">•</span>
-            <span class="font-normal text-gray-500 px-3">
+            <span
+              class="font-normal text-[#6B7280] px-3 p-1 rounded-lg border-1"
+            >
               {{ resource.size }} </span
             ><span>•</span
-            ><span class="font-normal text-gray-500 px-3">
+            ><span
+              class="font-normal text-[#6B7280] px-3 p-1 rounded-lg border-1"
+            >
               {{ resource.date }}</span
             >
           </p>
@@ -40,22 +48,22 @@
         <button
           @click="startEdit"
           title="Modifier"
-          class="hover:text-primary transition p-1 rounded hover:bg-blue-50"
+          class="hover:text-primary transition p-1 rounded hover:bg-blue-50 text-[#6B7280]"
         >
-          <PencilIcon class="size-5"></PencilIcon>
+          <Pen :size="16" class="stroke-gray-600" />
         </button>
         <button
           @click="confirmDelete"
           title="Supprimer"
           :disabled="deleting"
-          class="hover:text-red-500 transition p-1 rounded hover:bg-red-50 disabled:opacity-40"
+          class="transition p-1 rounded hover:bg-red-50 disabled:opacity-40 text-[#EF4444]"
         >
           <span
             v-if="deleting"
             class="inline-block w-4 h-4 border-2 border-red-400 border-t-transparent rounded-full animate-spin"
           ></span>
           <span v-else>
-            <TrashIcon class="size-5"></TrashIcon>
+            <Trash2 :size="16" class="stroke-red-600" />
           </span>
         </button>
       </div>
@@ -101,7 +109,7 @@
       <div class="space-y-3">
         <!-- Titre -->
         <div>
-          <label class="text-xs font-medium text-gray-600 block mb-1"
+          <label for="title" class="text-xs font-medium text-gray-600 block mb-1"
             >Titre</label
           >
           <input
@@ -119,7 +127,7 @@
         <!-- Type + Taille sur la meme ligne -->
         <div class="flex gap-3">
           <div class="flex-1">
-            <label class="text-xs font-medium text-gray-600 block mb-1"
+            <label for="type" class="text-xs font-medium text-gray-600 block mb-1"
               >Type</label
             >
             <select v-model="editForm.type" class="edit-input">
@@ -129,7 +137,7 @@
             </select>
           </div>
           <div class="flex-1">
-            <label class="text-xs font-medium text-gray-600 block mb-1"
+            <label for="weight" class="text-xs font-medium text-gray-600 block mb-1"
               >Taille</label
             >
             <input
@@ -147,7 +155,7 @@
 
         <!-- Date -->
         <div>
-          <label class="text-xs font-medium text-gray-600 block mb-1"
+          <label for="date" class="text-xs font-medium text-gray-600 block mb-1"
             >Date</label
           >
           <input
@@ -200,12 +208,12 @@ import { ref, computed } from "vue";
 import type { Resource, FileType } from "../../types/formation";
 import { useFormations } from "../../composables/useFormations";
 import type { Component } from "vue";
-import { DocumentTextIcon } from "@heroicons/vue/24/outline";
-import { VideoCameraIcon } from "@heroicons/vue/24/outline";
-import { PencilIcon } from "@heroicons/vue/24/outline";
-import { TrashIcon } from "@heroicons/vue/24/outline";
-import { XMarkIcon } from "@heroicons/vue/24/outline";
-import { ExclamationTriangleIcon } from "@heroicons/vue/24/outline";
+import {
+  ExclamationTriangleIcon,
+  XMarkIcon,
+  VideoCameraIcon,
+} from "@heroicons/vue/24/outline";
+import { FileText, Trash2, Pen } from "lucide-vue-next";
 
 const props = defineProps<{
   resource: Resource;
@@ -231,19 +239,19 @@ const editForm = ref({
   date: "",
 });
 const iconMap: Record<string, Component> = {
-  PDF: DocumentTextIcon,
+  PDF: FileText,
   Video: VideoCameraIcon,
-  Archive: DocumentTextIcon,
+  Archive: FileText,
 };
 // ── Couleur selon le type ───────────────────────────────────────
 const typeStyle = computed(() => {
   switch (props.resource.type) {
     case "PDF":
-      return { text: "text-primary" };
+      return { text: "text-primary", stroke: "stroke-blue-700" };
     case "Video":
-      return { text: "text-purple-500" };
+      return { text: "text-purple-500", stroke: "stroke-purple-600" };
     case "Archive":
-      return { text: "text-primary" };
+      return { text: "text-primary", stroke: "stroke-blue-700" };
     default:
       return { bg: "bg-gray-100", text: "text-gray-600" };
   }

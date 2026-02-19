@@ -1,10 +1,11 @@
 <template>
   <div class="mt-6">
     <div class="flex items-center gap-2 mb-3">
-      <span class="text-sm font-bold text-gray-700">
+      <span class="text-[#3B82F6]">•</span>
+      <span class="text-sm font-semibold text-[#111827]">
         {{ module.title }}
       </span>
-      <span class="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">
+      <span class="text-xs bg-[#F3F4F6] text-[#1F2937] px-2 py-0.5 rounded-full">
         {{ module.resources.length }}
       </span>
     </div>

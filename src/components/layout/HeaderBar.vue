@@ -11,7 +11,7 @@
     </button>
 
     <div class="flex-1 ml-2">
-      <h1 class="text-xl font-semibold">Ressources Pédagogiques</h1>
+      <h1 class="text-xl font-semibold leading-[28px]">Ressources Pédagogiques</h1>
     </div>
     <!-- Right section -->
     <div class="flex items-center gap-6">
