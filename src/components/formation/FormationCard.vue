@@ -1,10 +1,10 @@
 <template>
   <div
-    class="'rounded-xl shadow-card mb-6 overflow-hidden border transition-all duration-200 border-gray-200',"
+    class="rounded-xl shadow-card mb-6 overflow-hidden border transition-all duration-200 border-gray-200"
   >
     <!-- Header Formation -->
     <div
-      class="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition"
+      class="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition bg-[#DBEAFE]"
       @click="$emit('toggle')"
     >
       <div class="flex items-center gap-3">
