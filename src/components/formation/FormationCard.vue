@@ -1,13 +1,11 @@
 <template>
   <div
-    :class="[
-      'rounded-xl shadow-card mb-6 overflow-hidden border border-gray-200',
-    ]"
+    class="'rounded-xl shadow-card mb-6 overflow-hidden border transition-all duration-200 border-gray-200',"
   >
     <!-- Header Formation -->
     <div
-      class="flex items-center justify-between px-6 py-4 cursor-pointer"
-      @click="toggleOpen"
+      class="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition"
+      @click="$emit('toggle')"
     >
       <div class="flex items-center gap-3">
         <div
@@ -22,50 +20,58 @@
           </h2>
           <p class="text-xs text-[#6B7280] mt-1 font-normal leading-[20px]">
             {{ formation.modules.length }} module{{
-              formation.modules.length > 1 ? "s" : null
+              formation.modules.length > 1 ? "s" : ""
             }}
-            • {{ totalResources }} ressource{{
-              formation.modules.length > 1 ? "s" : null
-            }}
+            • {{ totalResources }} ressource{{ totalResources > 1 ? "s" : "" }}
           </p>
         </div>
       </div>
 
       <span
-        class="text-gray-500 transition-transform"
+        class="text-gray-500 transition-transform duration-300"
         :class="{ 'rotate-180': isOpen }"
       >
-        <ChevronDown :size="16"/>
+        <ChevronDown :size="16" />
       </span>
     </div>
 
-    <!-- Modules -->
-    <div v-show="isOpen" class="bg-white px-6 pb-6">
-      <ModuleSection
-        v-for="module in formation.modules"
-        :key="module.id"
-        :module="module"
-        :formation-id="formation.id"
-      />
-    </div>
+    <!-- Modules (avec transition collapse) -->
+    <transition
+      enter-active-class="transition-all duration-300 ease-out"
+      leave-active-class="transition-all duration-300 ease-in"
+      enter-from-class="max-h-0 opacity-0"
+      enter-to-class="max-h-[2000px] opacity-100"
+      leave-from-class="max-h-[2000px] opacity-100"
+      leave-to-class="max-h-0 opacity-0"
+    >
+      <div v-show="isOpen" class="overflow-hidden">
+        <div class="bg-white px-6 pb-6">
+          <ModuleSection
+            v-for="module in formation.modules"
+            :key="module.id"
+            :module="module"
+            :formation-id="formation.id"
+          />
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import type { Formation } from "../../types/formation";
 import ModuleSection from "./ModuleSection.vue";
 import { Folder, ChevronDown } from "lucide-vue-next";
 
 const props = defineProps<{
   formation: Formation;
+  isOpen: boolean;
 }>();
 
-const isOpen = ref(true);
-
-const toggleOpen = () => {
-  isOpen.value = !isOpen.value;
-};
+defineEmits<{
+  toggle: [];
+}>();
 
 const totalResources = computed(() =>
   props.formation.modules.reduce((acc, m) => acc + m.resources.length, 0),

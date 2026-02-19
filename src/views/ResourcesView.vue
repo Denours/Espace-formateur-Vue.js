@@ -1,6 +1,6 @@
 <template>
   <div class="p-8">
-    <!-- En-tête -->
+    <!-- En-tete -->
     <div class="flex justify-between items-start mb-8">
       <p class="text-sm text-[#6B7280] mt-1">
         <template v-if="isLoading">Chargement…</template>
@@ -15,9 +15,7 @@
         class="bg-primary text-white px-5 py-3 rounded-lg shadow-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <div class="flex">
-          <ArrowUpTrayIcon
-            class="size-5 font-bold stroke-white"
-          ></ArrowUpTrayIcon>
+          <ArrowUpTrayIcon class="size-5 font-bold stroke-white"></ArrowUpTrayIcon>
           <span class="ml-5 font-medium text-sm">Ajouter une ressource</span>
         </div>
       </button>
@@ -49,17 +47,19 @@
           @click="fetchFormations"
           class="mt-3 px-4 py-1.5 bg-red-100 hover:bg-red-200 rounded-lg transition text-red-700 font-medium"
         >
-          Réessayer
+          Reessayer
         </button>
       </div>
     </div>
 
-    <!-- Liste des formations -->
+    <!-- Liste des formations (ACCORDEON) -->
     <template v-else>
       <FormationCard
         v-for="formation in formations"
         :key="formation.id"
         :formation="formation"
+        :is-open="openFormationId === formation.id"
+        @toggle="toggleFormation(formation.id)"
       />
     </template>
 
@@ -92,6 +92,16 @@ const {
 } = useFormations();
 
 const isModalOpen = ref(false);
+
+// --- GESTION ACCORDEON ---
+// ID de la formation actuellement ouverte (null = toutes fermees)
+const openFormationId = ref<number | null>(null);
+
+function toggleFormation(formationId: number) {
+  // Si on clique sur une formation deja ouverte -> la fermer
+  // Sinon -> ouvrir cette formation (et fermer l'autre automatiquement)
+  openFormationId.value = openFormationId.value === formationId ? null : formationId;
+}
 
 async function handleAddResource(payload: {
   formationId: number;
