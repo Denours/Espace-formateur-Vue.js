@@ -7,18 +7,18 @@
       class="bg-white w-full max-w-lg rounded-2xl shadow-xl animate-modal max-h-[90vh] flex flex-col"
     >
       <!-- Header -->
-      <div class="flex justify-between items-center px-6 py-5 border-b">
+      <div class="flex justify-between items-center px-6 py-5">
         <div>
           <h2 class="text-lg font-semibold">Ajouter une ressource</h2>
-          <p class="text-sm text-gray-500 mt-1">
+          <p class="text-sm text-gray-500 mt-3">
             Téléchargez un document pour vos apprenants
           </p>
         </div>
         <button
           @click="$emit('close')"
-          class="text-gray-400 hover:text-gray-600 text-xl"
+          class="text-gray-400 hover:text-gray-600 text-xl -mt-8"
         >
-          ✕
+          <X :size="32" />
         </button>
       </div>
 
@@ -167,9 +167,9 @@
             placeholder="Ex: Cours 1 - Introduction"
             class="input"
           />
-          <p class="text-xs text-gray-400 mt-1">
+          <!-- <p class="text-xs text-gray-400 mt-1">
             Si vide, le nom du fichier sera utilisé.
-          </p>
+          </p> -->
         </div>
       </div>
 
@@ -185,24 +185,26 @@
       </div>
 
       <!-- Footer -->
-      <div class="flex justify-end gap-3 px-6 py-5 border-t">
+      <div class="flex gap-3 px-6 py-5 text-sm">
         <button
           @click="$emit('close')"
           :disabled="submitting"
-          class="px-5 py-2 rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition disabled:opacity-50"
+          class="px-5 py-2 w-full rounded-lg border border-gray-300 text-gray-600 hover:bg-gray-100 transition disabled:opacity-50"
         >
           Annuler
         </button>
         <button
           @click="handleSubmit"
           :disabled="submitting"
-          class="flex items-center gap-2 px-5 py-2 rounded-lg bg-primary text-white hover:bg-blue-700 transition shadow disabled:opacity-60 disabled:cursor-not-allowed"
+          class="flex items-center gap-2 px-5 py-2 w-full rounded-lg bg-primary text-white hover:bg-blue-700 transition shadow disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <span
             v-if="submitting"
             class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"
           ></span>
-          {{ submitting ? "Envoi en cours…" : "Télecharger" }}
+          <span class="ml-[30%]">{{
+            submitting ? "Envoi en cours…" : "Télecharger"
+          }}</span>
         </button>
       </div>
     </div>
@@ -217,6 +219,7 @@ import {
   ArrowUpTrayIcon,
   ExclamationTriangleIcon,
 } from "@heroicons/vue/24/outline";
+import { X } from "lucide-vue-next";
 
 // ── Props & Emits ──────────────────────────────────────────────
 const props = defineProps<{
