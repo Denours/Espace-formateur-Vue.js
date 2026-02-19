@@ -18,7 +18,7 @@
           @click="$emit('close')"
           class="text-gray-400 hover:text-gray-600 text-xl -mt-8"
         >
-          <X :size="32" />
+          <X :size="24" />
         </button>
       </div>
 
