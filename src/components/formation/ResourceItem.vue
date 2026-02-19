@@ -20,7 +20,7 @@
         >
           <component
             :is="iconMap[resource.type] || FileText"
-            :class="['size-4',typeStyle.stroke]"
+            :class="['size-4', typeStyle.stroke]"
           ></component>
         </div>
         <div>

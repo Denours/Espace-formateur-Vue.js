@@ -4,12 +4,20 @@
   >
     <!-- Header Formation -->
     <div
-      class="flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition bg-[#DBEAFE]"
+      :class="[
+        'flex items-center justify-between px-6 py-4 cursor-pointer hover:bg-gray-50 transition',
+        formation.modules.length > 1 ? 'bg-[#DBEAFE]' : 'bg-white',
+      ]"
       @click="$emit('toggle')"
     >
       <div class="flex items-center gap-3">
         <div
-          class="w-9 h-9 rounded-lg flex items-center justify-center bg-[#DBEAFE] text-primary"
+          :class="[
+            'w-9 h-9 rounded-lg flex items-center justify-center',
+            formation.modules.length > 1
+              ? 'bg-[#DBEAFE] text-primary'
+              : 'bg-[#F3E8FF] text-[#9333EA]',
+          ]"
         >
           <Folder :size="20" />
         </div>
@@ -22,7 +30,12 @@
             {{ formation.modules.length }} module{{
               formation.modules.length > 1 ? "s" : ""
             }}
-            • <span class="ml-3">{{ totalResources }} ressource{{ totalResources > 1 ? "s" : "" }}</span>
+            •
+            <span class="ml-3"
+              >{{ totalResources }} ressource{{
+                totalResources > 1 ? "s" : ""
+              }}</span
+            >
           </p>
         </div>
       </div>
