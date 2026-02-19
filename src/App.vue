@@ -9,8 +9,7 @@
       ]"
     >
       <HeaderBar @toggleSidebar="isSidebarOpen = !isSidebarOpen" />
-
-      <main class="flex-1 overflow-y-auto">
+      <main class="flex-1 overflow-y-auto px-28">
         <RouterView />
       </main>
     </div>

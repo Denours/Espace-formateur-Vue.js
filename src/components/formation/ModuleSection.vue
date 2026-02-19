@@ -5,12 +5,14 @@
       <span class="text-sm font-semibold text-[#111827]">
         {{ module.title }}
       </span>
-      <span class="text-xs bg-[#F3F4F6] text-[#1F2937] px-2 py-0.5 rounded-full">
+      <span
+        class="text-xs bg-[#F3F4F6] text-[#1F2937] px-2 py-0.5 rounded-full"
+      >
         {{ module.resources.length }}
       </span>
     </div>
 
-    <div class="space-y-3">
+    <div class="space-y-3 border-l-2 border-[#F3F4F6] p-3">
       <ResourceItem
         v-for="resource in module.resources"
         :key="resource.id"
