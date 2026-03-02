@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref } from "vue";
 import { useFormations } from "../composables/useFormations";
 import FormationCard from "../components/formation/FormationCard.vue";
 import AddResourceModal from "../components/modals/AddResourceModal.vue";
