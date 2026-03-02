@@ -5,7 +5,8 @@
       <p class="text-sm text-[#6B7280] mt-1">
         <template v-if="isLoading">Chargement…</template>
         <template v-else>
-          {{ totalResources }} ressources • <span class="ml-5">{{ formations.length }} formations</span>
+          {{ totalResources }} ressources •
+          <span class="ml-5">{{ formations.length }} formations</span>
         </template>
       </p>
 
@@ -15,7 +16,9 @@
         class="bg-primary text-white px-5 py-3 rounded-lg shadow-md hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
       >
         <div class="flex">
-          <ArrowUpTrayIcon class="size-5 font-bold stroke-white"></ArrowUpTrayIcon>
+          <ArrowUpTrayIcon
+            class="size-5 font-bold stroke-white"
+          ></ArrowUpTrayIcon>
           <span class="ml-5 font-medium text-sm">Ajouter une ressource</span>
         </div>
       </button>
@@ -100,7 +103,8 @@ const openFormationId = ref<number | null>(null);
 function toggleFormation(formationId: number) {
   // Si on clique sur une formation deja ouverte -> la fermer
   // Sinon -> ouvrir cette formation (et fermer l'autre automatiquement)
-  openFormationId.value = openFormationId.value === formationId ? null : formationId;
+  openFormationId.value =
+    openFormationId.value === formationId ? null : formationId;
 }
 
 async function handleAddResource(payload: {
@@ -115,6 +119,5 @@ async function handleAddResource(payload: {
   );
   if (created) isModalOpen.value = false;
 }
-
-onMounted(() => fetchFormations());
+fetchFormations();
 </script>

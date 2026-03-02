@@ -40,11 +40,11 @@
         <div
           @click="logout"
           :class="[
-            'flex items-center gap-3 px-4 py-2.5 text-[#DC2626] mt-6 rounded-lg text-sm  cursor-pointer transition',
+            'flex items-center gap-3 px-4 py-2.5 text-[#DC2626] mt-6 rounded-lg text-sm cursor-pointer transition',
           ]"
         >
           <div class="w-5 h-5">
-            <LogOut :size="20" class="-ml-3"></LogOut>
+            <LogOut :size="20" class="-ml-3" />
           </div>
           <span class="logout -ml-2">Déconnexion</span>
         </div>

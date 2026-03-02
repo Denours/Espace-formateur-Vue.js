@@ -326,7 +326,7 @@ function validate(): boolean {
   return valid;
 }
 
-// ── Soumission async ───────────────────────────────────────────
+// ── Soumission async (CORRIGÉE - Sans watch dangereux) ─────────
 async function handleSubmit() {
   if (!validate()) return;
 
@@ -341,33 +341,21 @@ async function handleSubmit() {
   });
 
   try {
-    // Émettre vers App.vue qui appelle addResource (Axios POST)
-    // On utilise une Promise pour attendre la réponse du parent
-    await new Promise<void>((resolve) => {
-      const cleanup = watch(
-        () => props.formations, // si les formations changent → succès
-        () => {
-          cleanup();
-          resolve();
-        },
-        { deep: true, once: true },
-      );
-      emit("add-resource", {
-        formationId: selectedFormationId.value!,
-        moduleId: selectedModuleId.value!,
-        resource: {
-          title: customName.value.trim() || selectedFile.value!.name,
-          type: selectedType.value,
-          size: formattedFileSize.value,
-          date: dateStr,
-        },
-      });
-      // Timeout de sécurité
-      setTimeout(() => {
-        cleanup();
-        resolve();
-      }, 5000);
+    // Émettre l'événement au parent de manière synchrone
+    emit("add-resource", {
+      formationId: selectedFormationId.value!,
+      moduleId: selectedModuleId.value!,
+      resource: {
+        title: customName.value.trim() || selectedFile.value!.name,
+        type: selectedType.value,
+        size: formattedFileSize.value,
+        date: dateStr,
+      },
     });
+
+    // Délai court pour laisser le temps au parent de traiter
+    // (Le parent fermera la modale si l'ajout réussit)
+    await new Promise((resolve) => setTimeout(resolve, 300));
   } catch (err) {
     serverError.value = (err as Error).message || "Erreur lors de l'envoi.";
   } finally {
